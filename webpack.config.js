@@ -2,7 +2,10 @@ var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
-    entry: './ImageLoader.js',
+  entry: './ImageLoader.js',
+    // entry: './ImageLoaderParallel.js',
+    //entry: './ImageLoaderSerial.js',
+    // entry: '.ImageLoaderNone.js',
     output: {
         path: __dirname,
         filename: 'bundle.js'

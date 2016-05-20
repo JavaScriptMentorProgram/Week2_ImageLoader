@@ -22,25 +22,26 @@ class ImageLoader{
   }
 
   load(images){
-    return new Promise((resolve, reject) => {
       let total = 0;
       let loaded = 0;
       Object.getOwnPropertyNames(images).forEach((key) => {
         total++;
-        let url = images[key];
-        let img = new Image();
-        img.src = url;
-        img.onload = () => {
-          loaded++;
-          this.emit('progress', loaded, total);
-          if(loaded === total){
-            resolve('Done');
+        let promise = new Promise((resolve, reject) =>{
+          let url = images[key];
+          let img = new Image();
+          img.src = url;
+          img.onload = () => {
+            resolve(key);
           }
-        }
-        img.onerror = () => {
-        }
+          img.onerror = () => {
+          }
+        });
+        promise.then((result) => {
+          loaded++;
+          // console.log(`${result} loaded, ${loaded} of ${total} complete`);
+          this.emit('progress', loaded, total);
+        });
       });
-    });
   }
 }
 
@@ -62,7 +63,7 @@ const update = (args) =>{
 }
 
 const loader = new ImageLoader();
-loader.load(images).then(function(arg){
-  console.log(arg);
-});
+loader.load(images);
 loader.on('progress', update);
+
+
