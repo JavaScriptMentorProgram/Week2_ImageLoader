@@ -1,4 +1,4 @@
-export default class ImageLoader{
+class ImageLoader{
   constructor(){
     this._store = {};
     this._listeners = new Map();
@@ -44,7 +44,7 @@ export default class ImageLoader{
   }
 }
 
-/*const images = {
+const images = {
   'vase': 'https://upload.wikimedia.org/wikipedia/commons/b/b8/Chinese_vase.jpg',
   'babi':'http://images6.fanpop.com/image/photos/33500000/BABI-justin-bieber-33561812-360-640.jpg',
   'abstract': 'http://i.telegraph.co.uk/multimedia/archive/03589/Wellcome_Image_Awa_3589699k.jpg',
@@ -57,12 +57,16 @@ export default class ImageLoader{
   'bird': 'http://pic3.nipic.com/20090618/240816_131451019_2.jpg'
 }
 
+var progress = document.getElementById('progress');
+
 const update = (args) =>{
   console.log(`${args[0]} of ${args[1]} complete.`);
+  progress.style.width = ((args[0] / args[1])*100).toString()+"%";
+  progress.innerHTML = ((args[0] / args[1])*100).toString()+"%";
 }
 
-const loader = new ImageLoader();
+let loader = new ImageLoader();
 loader.load(images).then(function(arg){
   console.log(arg);
 });
-loader.on('progress', update);*/
+loader.on('progress', update);
