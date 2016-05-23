@@ -16,5 +16,4 @@ run npm start, in your browser, http://localhost:8080/, you will see the result.
 
 
 #### How to run test
-
-##### in the root folder, open the SpecRunner.html in your browser.
+In the project root folder, open the SpecRunner.html in your browser.
