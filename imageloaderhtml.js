@@ -1,50 +1,6 @@
-export default class ImageLoader{
-  constructor(){
-    this._store = {};
-    this._listeners = new Map();
-  }
+import ImageLoader from './ImageLoader.js';
 
-  on(event, callback){
-    this._listeners.has(event) || this._listeners.set(event, []) ;
-    this._listeners.get(event).push(callback);
-    this._listeners.get(event).filter(l => l!== callback);
-  }
-
-  emit(event, ...args){
-    let listeners = this._listeners.get(event);
-    if(listeners && listeners.length){
-      listeners.forEach(listeners => {
-        listeners(args);
-      });
-      return true;
-    }
-    return false;
-  }
-
-  load(images){
-    return new Promise((resolve, reject) => {
-      let total = 0;
-      let loaded = 0;
-      Object.getOwnPropertyNames(images).forEach((key) => {
-        total++;
-        let url = images[key];
-        let img = new Image();
-        img.src = url;
-        img.onload = () => {
-          loaded++;
-          this.emit('progress', loaded, total);
-          if(loaded === total){
-            resolve('Done');
-          }
-        }
-        img.onerror = () => {
-        }
-      });
-    });
-  }
-}
-
-/*const images = {
+const images = {
   'vase': 'https://upload.wikimedia.org/wikipedia/commons/b/b8/Chinese_vase.jpg',
   'babi':'http://images6.fanpop.com/image/photos/33500000/BABI-justin-bieber-33561812-360-640.jpg',
   'abstract': 'http://i.telegraph.co.uk/multimedia/archive/03589/Wellcome_Image_Awa_3589699k.jpg',
@@ -56,13 +12,16 @@ export default class ImageLoader{
   'icecream': 'http://www.americasdairyland.com/assets/images/EWC/Ice-Cream-Hdr.jpg',
   'bird': 'http://pic3.nipic.com/20090618/240816_131451019_2.jpg'
 }
+var progress = document.getElementById('progress');
 
 const update = (args) =>{
   console.log(`${args[0]} of ${args[1]} complete.`);
+  progress.style.width = ((args[0] / args[1])*100).toString()+"%";
+  progress.innerHTML = ((args[0] / args[1])*100).toString()+"%";
 }
 
-const loader = new ImageLoader();
+let loader = new ImageLoader();
 loader.load(images).then(function(arg){
   console.log(arg);
 });
-loader.on('progress', update);*/
+loader.on('progress', update);
