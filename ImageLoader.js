@@ -44,7 +44,7 @@ class ImageLoader{
   }
 }
 
-const images = {
+/*const images = {
   'vase': 'https://upload.wikimedia.org/wikipedia/commons/b/b8/Chinese_vase.jpg',
   'babi':'http://images6.fanpop.com/image/photos/33500000/BABI-justin-bieber-33561812-360-640.jpg',
   'abstract': 'http://i.telegraph.co.uk/multimedia/archive/03589/Wellcome_Image_Awa_3589699k.jpg',
@@ -65,4 +65,4 @@ const loader = new ImageLoader();
 loader.load(images).then(function(arg){
   console.log(arg);
 });
-loader.on('progress', update);
+loader.on('progress', update);*/
