@@ -1,3 +1,5 @@
+import ImageLoader from "../ImageLoader.js";
+
 describe('ImageLoader', function(){
   var loader = new ImageLoader();
   var images = {

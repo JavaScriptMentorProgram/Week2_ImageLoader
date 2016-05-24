@@ -50,80 +50,61 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	/*class ImageLoader{
-	  constructor(){
-	    this._store = {};
-	  }
-	
-	  load(images){
-	      let total = 0;
-	      Object.getOwnPropertyNames(images).forEach((key) => {
-	        total++;
-	        let promise = new Promise(function(resolve, reject){
-	          let url = images[key];
-	          let img = new Image();
-	          img.src = url;
-	          img.onload = () =>{
-	            resolve(key);
-	          }
-	        });
-	        promise.then(function(result){
-	          console.log(`${result} of ${total} complete`);
-	        });
-	      });
-	    });
-	  }
-	}
-	
-	
-	const loader = new ImageLoader();
-	
-	loader.load({
-	  'vase': 'https://upload.wikimedia.org/wikipedia/commons/b/b8/Chinese_vase.jpg',
-	  'babi':'http://images6.fanpop.com/image/photos/33500000/BABI-justin-bieber-33561812-360-640.jpg'
-	  }
-	);
-	*/
-	
-	/*************************** Version One ********************************/
-	
 	var ImageLoader = function () {
 	  function ImageLoader() {
 	    _classCallCheck(this, ImageLoader);
 	
 	    this._store = {};
+	    this._listeners = new Map();
 	  }
 	
 	  _createClass(ImageLoader, [{
-	    key: 'cb',
-	    value: function cb(loadedNumber) {
-	      console.log('loaded $loadedNumber images');
+	    key: 'on',
+	    value: function on(event, callback) {
+	      this._listeners.has(event) || this._listeners.set(event, []);
+	      this._listeners.get(event).push(callback);
+	      this._listeners.get(event).filter(function (l) {
+	        return l !== callback;
+	      });
+	    }
+	  }, {
+	    key: 'emit',
+	    value: function emit(event) {
+	      for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+	        args[_key - 1] = arguments[_key];
+	      }
+	
+	      var listeners = this._listeners.get(event);
+	      if (listeners && listeners.length) {
+	        listeners.forEach(function (listeners) {
+	          listeners(args);
+	        });
+	        return true;
+	      }
+	      return false;
 	    }
 	  }, {
 	    key: 'load',
 	    value: function load(images) {
 	      var _this = this;
 	
-	      var total = 0;
-	      var loaded = 0;
-	      Object.getOwnPropertyNames(images).forEach(function (key) {
-	        total++;
-	        var url = images[key];
-	        var img = new Image();
-	        img.src = url;
-	        img.onload = function () {
-	          loaded++;
-	          _this._store[key] = img;
-	          console.log(loaded + ' of ' + total + ' complete');
-	
-	          if (total === loaded) {
-	            console.log(total + ' and ' + loaded);
-	          }
-	        };
-	
-	        img.onerror = function (e) {
-	          // console.log(`$total and $loaded`);
-	        };
+	      return new Promise(function (resolve, reject) {
+	        var total = 0;
+	        var loaded = 0;
+	        Object.getOwnPropertyNames(images).forEach(function (key) {
+	          total++;
+	          var url = images[key];
+	          var img = new Image();
+	          img.src = url;
+	          img.onload = function () {
+	            loaded++;
+	            _this.emit('progress', loaded, total);
+	            if (loaded === total) {
+	              resolve('Done');
+	            }
+	          };
+	          img.onerror = function () {};
+	        });
 	      });
 	    }
 	  }]);
@@ -131,12 +112,7 @@
 	  return ImageLoader;
 	}();
 	
-	var loader = new ImageLoader();
-	
-	loader.load({
-	  'vase': 'https://upload.wikimedia.org/wikipedia/commons/b/b8/Chinese_vase.jpg',
-	  'babi': 'http://images6.fanpop.com/image/photos/33500000/BABI-justin-bieber-33561812-360-640.jpg'
-	});
+	exports.loader = new ImageLoader();
 
 /***/ }
 /******/ ]);
