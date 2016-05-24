@@ -38,11 +38,9 @@ export default class ImageLoader{
           }
         }
         img.onerror = () => {
-            reject('error');
+            reject('Error');
         }
       });
     });
   }
 }
-
-// exports.loader = new ImageLoader();

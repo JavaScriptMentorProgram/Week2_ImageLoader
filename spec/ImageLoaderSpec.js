@@ -16,6 +16,27 @@ describe('ImageLoader', function(){
   }
 
   describe("should able to load images", function(){
+    it("Finish load all images",function(){
+      spyOn(loader,'load').and.callThrough();
+      loader.load(images).then(function(arg){
+      });
+      expect(loader.load).toHaveBeenCalledWith(images);
+    });
+  });
+
+  describe("should able to show the progress of loading", function(){
+    it("track loader.on have been called times equal to images number", function(){
+      var calledTimes = 0;
+      const update = (args) =>{
+        calledTimes++;
+      }
+      spyOn(loader, 'on').and.callThrough();
+      loader.on('progress', update);
+      expect(loader.on).toHaveBeenCalled();
+    });
+  });
+
+/*  describe("should able to load images", function(){
     var argument = null;
     loader.load(images).then(function(arg){
       argument = arg;
@@ -36,6 +57,6 @@ describe('ImageLoader', function(){
     it("track loader.on have been called times equal to images number", function(){
       expect(calledTimes).toBe(Object.keys(images).length);
     });
-  });
+  });*/
 
 });
