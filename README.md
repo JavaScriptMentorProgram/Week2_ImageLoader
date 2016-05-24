@@ -9,11 +9,11 @@ This is an excise for Asynchronous loading. At the same time, it uses Jasmine as
 If you have git, run git clone https://github.com/JavaScriptMentorProgram/Week2_ImageLoader.git
 Otherwise, you can download the zip file and upzip it.
 ##### Step 2 npm install
-Go into the directory you instore the Week2_ImageLoader, then go into the Week2_ImageLoader, run npm install 
+Go into the directory you instore the Week2_ImageLoader, then go into the Week2_ImageLoader, run `npm install` 
 
 ##### run
-run npm start, in your browser, http://localhost:8080/, you will see the result. 
+run `npm start`, in your browser, http://localhost:8080/, you will see the result. 
 
 
 #### How to run test
-In the project root folder, open the SpecRunner.html in your browser.
+run `npm test`
